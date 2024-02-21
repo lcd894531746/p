@@ -1,0 +1,26 @@
+{
+  "name": "default",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "core-js": "^2.6.5",
+    "dayjs": "^1.11.6",
+    "file-saver": "^2.0.5",
+    "less-loader": "^4.1.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^7.3.1",
+    "three": "^0.148.0",
+    "v-region": "^3.0.0-beta.3",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
