@@ -32,7 +32,7 @@ export default {
       const geometry = new THREE.BoxGeometry(1, 1, 1);
       // 创建材质
       const material = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
+        color: 0x0096ff,
         wireframe: true,
       });
       // 创建 网格mesh
