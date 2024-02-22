@@ -5,18 +5,19 @@
 <script>
 import * as THREE from "three";
 // 引入轨道控制器扩展库OrbitControls.js
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 export default {
   mounted() {
     this.init();
   },
-  
+
   methods: {
     init() {
       //1.创建一个场景
       const scene = new THREE.Scene();
+
       // 创建一个 几何体
-      const geometry = new THREE.BoxGeometry(50, 60, 50);
+      const geometry = new THREE.BoxGeometry(30, 30, 30);
       // 创建坐标轴
       const axesHelper = new THREE.AxesHelper(100);
       // 添加到场景中
@@ -36,9 +37,12 @@ export default {
       const point = new THREE.PointLight(0xffffff, 1.0);
       point.decay = 0.0; //不随着距离的增加而衰减
       // 点光源位置
-      point.position.set(40, 40, 50);
+      point.position.set(120, 80, 80);
       // 添加到场景中
       scene.add(point);
+      // 光源辅助观察
+      const pointLightHelper = new THREE.PointLightHelper(point, 5);
+      scene.add(pointLightHelper);
       // 2.创建一个网格  将来 材质 集合体放进去
       const mesh = new THREE.Mesh(geometry, material);
       //设置网格模型在三维空间中的位置坐标，默认是坐标原点
@@ -50,7 +54,6 @@ export default {
       // 参数2：长宽比（aspect）
       // 参数3：近裁剪面
       // 参数4：远裁剪面
-
       const width = window.innerWidth || 800; //window.innerWidth
       const height = window.innerHeight || 500; //window.innerHeight
       const camera = new THREE.PerspectiveCamera(30, width / height, 1, 3000);
