@@ -10,6 +10,7 @@ export default {
   mounted() {
     this.init();
   },
+  
   methods: {
     init() {
       //1.创建一个场景
