@@ -15,7 +15,7 @@ export default {
 
       // 创建相机
       const camera = new THREE.PerspectiveCamera(
-        75,
+        20,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
