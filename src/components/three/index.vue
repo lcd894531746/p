@@ -24,6 +24,7 @@ export default {
 
       // 创建渲染器
       const renderer = new THREE.WebGLRenderer();
+      // 浏览器视口大小
       renderer.setSize(window.innerWidth, window.innerHeight);
       this.$refs.container.appendChild(renderer.domElement);
 
