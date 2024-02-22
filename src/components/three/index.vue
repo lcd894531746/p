@@ -6,7 +6,16 @@
 import * as THREE from "three";
 // 引入轨道控制器扩展库OrbitControls.js
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+
 export default {
+  data() {
+    return {
+      fps: 0,
+    };
+  },
   mounted() {
     this.init();
   },
@@ -43,6 +52,11 @@ export default {
       // 光源辅助观察
       const pointLightHelper = new THREE.PointLightHelper(point, 5);
       scene.add(pointLightHelper);
+
+      //环境光:没有特定方向，整体改变场景的光照明暗
+      const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambient);
+
       // 2.创建一个网格  将来 材质 集合体放进去
       const mesh = new THREE.Mesh(geometry, material);
       //设置网格模型在三维空间中的位置坐标，默认是坐标原点
@@ -70,8 +84,53 @@ export default {
       // 将渲染器添加到DOM中
       this.$refs.container.appendChild(render.domElement);
       // 渲染循环
-      render.render(scene, camera);
-      const animate = function() {
+      // render.render(scene, camera);
+      const clock = new THREE.Clock();
+      //加载字体文件
+      const loader = new FontLoader();
+      // 创建 3D 文本的材质
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+      loader.load(
+        "https://cdn.jsdelivr.net/npm/three/examples/fonts/helvetiker_regular.typeface.json",
+        (font) => {
+          // 创建文本几何体
+          const textGeometry = new TextGeometry("FPS: 0", {
+            font: font,
+            size:2,
+            height: 0.2,
+          });
+          // 创建 3D 文本对象
+          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+          textMesh.position.set(-10, 100, 100); // 设置文本的位置
+          scene.add(textMesh);
+
+          // 定义 animate 函数，用于循环更新场景和计算 FPS
+          const textanimate = () => {
+            const spt = clock.getDelta() * 1000; // 毫秒
+            const fps = Math.ceil(1000 / spt);
+            // 更新文本内容
+            textMesh.geometry = new TextGeometry(`FPS: ${fps}`, {
+              font: font,
+              size: 2,
+              height: 0.2,
+            });
+            // 继续请求下一帧
+            requestAnimationFrame(textanimate);
+
+            // 渲染场景
+            render.render(scene, camera);
+          };
+
+          // 开始循环更新场景和计算 FPS
+          textanimate();
+        }
+      );
+      const animate = () => {
+        // const spt = clock.getDelta() * 1000; //毫秒
+        // const fps = (1000 / spt).toFixed(4);
+        // console.log("两帧渲染时间间隔(毫秒)", spt);
+        // console.log("帧率FPS", 1000 / spt);
+
         // 在 Three.js 或其他动画场景中，通常会使用 requestAnimationFrame 来循环调用渲染函数，
         // 以便持续更新场景的动画效果，而不会导致性能问题或过度消耗资源。
         requestAnimationFrame(animate);
@@ -88,7 +147,7 @@ export default {
         render.render(scene, camera); //执行渲染操作
       }); //监听鼠标、键盘事件
 
-      // animate();
+      animate();
     },
   },
 };
